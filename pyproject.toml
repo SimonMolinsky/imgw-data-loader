@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "imgw-data"
+version = "0.1.1"
+description = 'Python API for public IMGW data - atmospheric measurement from Polish weather stations'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "BSD-3-Clause"
+keywords = ["weather", "weather stations", "poland", "api", "atmospheric science"]
+authors = [
+  { name = "Szymon Moliński", email = "simon@ml-gis-service.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Scientific/Engineering :: Atmospheric Science",
+  "Topic :: Scientific/Engineering :: GIS",
+  "Topic :: Utilities"
+]
+dependencies = ["requests"]
+
+[project.urls]
+Documentation = "https://github.com/SimonMolinsky/imgw-data-loader#readme"
+Issues = "https://github.com/SimonMolinsky/imgw-data-loader/issues"
+Source = "https://github.com/SimonMolinsky/imgw-data-loader"
