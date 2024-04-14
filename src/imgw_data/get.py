@@ -1,9 +1,7 @@
-from typing import Union
-
 import requests
-from src.imgw_data.consts import IMGWUrls, IMGWDataFormats
+from src.imgw_data.consts import IMGWUrls, IMGWDataFormats, IMGWStationsCoordinates
 from src.imgw_data.export.export import export_to_file
-from src.imgw_data.utils.parse import parse_response
+from src.imgw_data.utils.parse import parse_response, add_coordinates
 from src.imgw_data.utils.translate import translate_synoptic
 from src.imgw_data.utils.urljoin import urljoin
 
@@ -34,24 +32,26 @@ def _build_format_url(urlbase: str,
     """
 
     if is_json:
-        return urlbase
+        return urlbase, 'json'
     elif is_csv:
-        return urljoin(urlbase, 'format', IMGWDataFormats.CSV.value)
+        return urljoin(urlbase, 'format', IMGWDataFormats.CSV.value), 'csv'
     elif is_xml:
-        return urljoin(urlbase, 'format', IMGWDataFormats.XML.value)
+        return urljoin(urlbase, 'format', IMGWDataFormats.XML.value), 'xml'
     elif is_html:
-        return urljoin(urlbase, 'format', IMGWDataFormats.HTML.value)
+        return urljoin(urlbase, 'format', IMGWDataFormats.HTML.value), 'html'
 
-    return urlbase
+    return urlbase, 'json'
 
 
 def get_current_weather(
         fname: str = None,
         translate_to_english=True,
+        add_station_coordinates=True,
         as_json=False,
         as_csv=False,
         as_xml=False,
         as_html=False,
+        raise_error_on_missing_coordinates=False
 ):
     """
     Function gets current weather from IMGW website.
@@ -63,6 +63,9 @@ def get_current_weather(
 
     translate_to_english : bool, default = true
         Translate weather readings keys to English.
+
+    add_station_coordinates : bool, default = True
+        Add station coordinates. Works only with json output.
 
     as_json : bool, default = False
         Save output to json.
@@ -76,6 +79,9 @@ def get_current_weather(
     as_html : bool, default = False
         Save output as html.
 
+    raise_error_on_missing_coordinates : bool, default = False
+        Raise ``ValueError`` if coordinates are missing.
+
     Notes
     -----
     If all file type parameters are set to ``False`` then system downloads default JSON.
@@ -83,7 +89,7 @@ def get_current_weather(
 
     base_url = IMGWUrls.SYNOPTIC.value
 
-    url = _build_format_url(
+    url, ftype = _build_format_url(
         urlbase=base_url,
         is_json=as_json,
         is_csv=as_csv,
@@ -95,11 +101,18 @@ def get_current_weather(
 
     # Parse response
     parsed = parse_response(
-        response, url
+        response, ftype
     )
 
     if translate_to_english:
         parsed = translate_synoptic(parsed)
+
+    if add_station_coordinates and ftype == 'json':
+        parsed = add_coordinates(
+            readings=parsed,
+            coordinates=IMGWStationsCoordinates.stations['data'],
+            raise_error_if_missing=raise_error_on_missing_coordinates
+        )
 
     if fname is None:
         return parsed
@@ -108,8 +121,5 @@ def get_current_weather(
         export_to_file(
             ds=parsed,
             fname=fname,
-            as_json=as_json,
-            as_csv=as_csv,
-            as_xml=as_xml,
-            as_html=as_html
+            ftype=ftype
         )

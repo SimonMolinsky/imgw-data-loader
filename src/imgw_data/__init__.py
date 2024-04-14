@@ -1,1 +1,1 @@
-from .get import get_current_weather
+from src.imgw_data.get import get_current_weather
