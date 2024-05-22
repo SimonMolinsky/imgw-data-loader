@@ -25,7 +25,7 @@ Function gets current weather from IMGW website. Monitored variables (polish: en
 - 'suma_opadu': 'precipitation'
 - 'cisnienie': 'pressure'
 
-### Download as a Python object
+#### Download as a Python object
 
 ```python
 from imgw_data import get_current_weather
@@ -59,7 +59,7 @@ print(current_weather_json)
 
 ```
 
-### Download and export to file
+#### Download and export to file
 
 ```python
 from imgw_data import get_current_weather
@@ -70,6 +70,23 @@ current_weather_csv = get_current_weather(fname='data.csv', as_csv=True)  # stor
 current_weather_xml = get_current_weather(fname='data.xml', as_xml=True)  # stores data as string xml
 current_weather_html = get_current_weather(fname='data.html', as_html=True)  # stores data as string html
 
+```
+
+### `get_active_stations_coordinates()`
+
+Returns list with station id, station longitude, station latitude among the current active stations.
+
+```python
+from imgw_data.stations import get_active_stations_coordinates
+
+
+active_stations = get_active_stations_coordinates()
+print(active_stations[0])
+
+```
+
+```shell
+['12295', 23.162281307080264, 53.10725901708551]
 ```
 
 ## Dependencies

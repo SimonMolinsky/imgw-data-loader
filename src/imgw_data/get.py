@@ -1,9 +1,9 @@
 import requests
-from src.imgw_data.consts import IMGWUrls, IMGWDataFormats, IMGWStationsCoordinates
-from src.imgw_data.export.export import export_to_file
-from src.imgw_data.utils.parse import parse_response, add_coordinates
-from src.imgw_data.utils.translate import translate_synoptic
-from src.imgw_data.utils.urljoin import urljoin
+from .consts import IMGWUrls, IMGWDataFormats, IMGWStationsCoordinates
+from .export.export import export_to_file
+from .utils.parse import parse_response, add_coordinates
+from .utils.translate import translate_synoptic
+from .utils.urljoin import urljoin
 
 
 def _build_format_url(urlbase: str,

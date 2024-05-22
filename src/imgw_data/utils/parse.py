@@ -23,7 +23,7 @@ def add_coordinates(readings: list[dict],
     Returns
     -------
     : list[dict]
-        Readings woth additional keys: ``lon`` | ``lat``.
+        Readings with additional keys: ``lon`` | ``lat``.
     """
 
     transformed = []

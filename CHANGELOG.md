@@ -1,5 +1,9 @@
 # Changelog
 
+## Version 0.1.3 (2024-05-22)
+
+- (feature) `get_active_stations_coordinates` function
+
 ## Version 0.1.2 (2024-04-14)
 
 - (bug) circular import is removed
