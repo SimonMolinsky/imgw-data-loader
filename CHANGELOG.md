@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.1.4 (2024-06-16)
+
+- (feature) `get_current_hydro` - current hydrological situation in Poland
+- (license) changed licensing
+
 ## Version 0.1.3 (2024-05-22)
 
 - (feature) `get_active_stations_coordinates` function
