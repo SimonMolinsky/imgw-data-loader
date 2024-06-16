@@ -1,9 +1,11 @@
+from typing import Optional
+
 import requests
-from .consts import IMGWUrls, IMGWDataFormats, IMGWStationsCoordinates
-from .export.export import export_to_file
-from .utils.parse import parse_response, add_coordinates
-from .utils.translate import translate_synoptic
-from .utils.urljoin import urljoin
+from imgw_data.consts import IMGWUrls, IMGWDataFormats, IMGWStationsCoordinates
+from imgw_data.export.export import export_to_file
+from imgw_data.utils.parse import parse_response, add_coordinates
+from imgw_data.utils.translate import translate_synoptic, translate_hydro_json
+from imgw_data.utils.urljoin import urljoin
 
 
 def _build_format_url(urlbase: str,
@@ -41,6 +43,52 @@ def _build_format_url(urlbase: str,
         return urljoin(urlbase, 'format', IMGWDataFormats.HTML.value), 'html'
 
     return urlbase, 'json'
+
+
+# TODO: add station coordinates
+def get_current_hydro(
+        fname: str = None,
+        translate_to_english=True
+) -> Optional[list[dict]]:
+    """
+    Function gets current hydrological status from Poland (IMGW public data).
+
+    Parameters
+    ----------
+    fname : str, optional
+        Filename where to store readings. If provided then function saves data instead of returning it.
+
+    translate_to_english : bool, default = true
+        Translate weather readings keys to English.
+
+    Returns
+    -------
+    readings : list[dict]
+        Hydrological observations.
+    """
+
+    base_url = IMGWUrls.HYDROLOGICAL.value
+
+    response = requests.get(url=base_url)
+
+    # Parse response
+    parsed = parse_response(
+        response, 'json'
+    )
+
+    # translate
+    if translate_to_english:
+        parsed = translate_hydro_json(parsed)
+
+    if fname is None:
+        return parsed
+    else:
+        # Save data
+        export_to_file(
+            ds=parsed,
+            fname=fname,
+            ftype='json'
+        )
 
 
 def get_current_weather(
@@ -104,15 +152,15 @@ def get_current_weather(
         response, ftype
     )
 
-    if translate_to_english:
-        parsed = translate_synoptic(parsed)
-
     if add_station_coordinates and ftype == 'json':
         parsed = add_coordinates(
             readings=parsed,
             coordinates=IMGWStationsCoordinates.stations['data'],
             raise_error_if_missing=raise_error_on_missing_coordinates
         )
+
+    if translate_to_english:
+        parsed = translate_synoptic(parsed)
 
     if fname is None:
         return parsed
@@ -123,3 +171,7 @@ def get_current_weather(
             fname=fname,
             ftype=ftype
         )
+
+
+if __name__ == '__main__':
+    print(get_current_hydro())

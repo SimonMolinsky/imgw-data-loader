@@ -31,7 +31,7 @@ def add_coordinates(readings: list[dict],
     all_ids = set()
 
     for reading in readings:
-        rid = reading['station_id'][2:]
+        rid = reading['id_stacji'][2:]
         all_ids.add(rid)
         # Get coordinates
         for coo in coordinates:

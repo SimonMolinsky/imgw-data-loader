@@ -1,1 +1,1 @@
-from .get import get_current_weather
+from .get import get_current_weather, get_current_hydro

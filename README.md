@@ -12,7 +12,7 @@ pip install imgw-data
 
 ### `get_current_weather()`
 
-Function gets current weather from IMGW website. Monitored variables (polish: english):
+Function gets current weather from IMGW website. Monitored variables (*polish*: *english*):
 
 - 'id_stacji': 'station_id'
 - 'stacja': 'station_name'
@@ -69,6 +69,65 @@ current_weather_json = get_current_weather(fname='data.json')  # stores data as 
 current_weather_csv = get_current_weather(fname='data.csv', as_csv=True)  # stores data as string csv
 current_weather_xml = get_current_weather(fname='data.xml', as_xml=True)  # stores data as string xml
 current_weather_html = get_current_weather(fname='data.html', as_html=True)  # stores data as string html
+
+```
+
+### `get_current_hydro()`
+
+Function gets current hydrological observations from IMGW website. Monitored variables (*polish*: *english*):
+
+- 'id_stacji': 'station_id'
+- 'stacja': 'station_name'
+- 'rzeka': 'river',
+- 'województwo': 'voivodeship',
+- 'stan_wody': 'water_level_cm',
+- 'stan_wody_data_pomiaru': 'water_level_measurement_datetime',
+- 'temperatura_wody': 'water_temperature_C',
+- 'temperatura_wody_data_pomiaru': 'water_temperature_measurement_datetime',
+- 'zjawisko_lodowe': 'ice_phenomena_code',
+- 'zjawisko_lodowe_data_pomiaru': 'ice_phenomena_measurement_datetime',
+- 'zjawisko_zarastania': 'vegetation_growth_code',
+- 'zjawisko_zarastania_data_pomiaru': 'vegetation_growth_measurement_datetime',
+
+#### Download as a Python object
+
+```python
+from imgw_data import get_current_hydro
+
+
+current_hydro_json = get_current_hydro()  # downloads data as JSON
+current_hydro_pl = get_current_hydro(translate_to_english=False)  # downloads original data with Polish sentences
+
+print(current_hydro_json)
+
+```
+
+```shell
+[
+  {'station_id': '151140030',
+   'station_name': 'Przewoźniki',
+   'river': 'Skroda',
+   'voivodeship': 'lubuskie',
+   'water_level_cm': '243',
+   'water_level_measurement_datetime': '2024-06-16 09:10:00',
+   'water_temperature_C': None,
+   'water_temperature_measurement_datetime': None,
+   'ice_phenomena_code': '0',
+   'ice_phenomena_measurement_datetime': '2024-01-09 11:00:00',
+   'vegetation_growth_code': '0',
+   'vegetation_growth_measurement_datetime':
+   '2023-09-11 10:00:00'},
+   ...
+]
+```
+
+#### Download and export to file
+
+```python
+from imgw_data import get_current_hydro
+
+
+current_weather_json = get_current_hydro(fname='data.json')  # stores data as JSON
 
 ```
 
