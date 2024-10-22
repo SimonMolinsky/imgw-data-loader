@@ -8,6 +8,12 @@ Python API for IMGW (Polish: Instytut Meteorologii i Gospodarki Wodnej) public d
 pip install imgw-data
 ```
 
+## Data
+
+- all **time** related variables are in **[UTC](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)** 
+- **coordinates** are in **[EPSG:4326](https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84)**
+- **temperature** unit is Celsius
+
 ## Usage
 
 ### `get_current_weather()`
