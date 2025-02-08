@@ -26,7 +26,3 @@ def get_active_stations_coordinates() -> List:
         )
 
     return results
-
-
-if __name__ == '__main__':
-    print(get_active_stations_coordinates()[0])

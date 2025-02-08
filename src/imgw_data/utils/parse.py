@@ -1,6 +1,9 @@
+import json
 from typing import Union
 
 import requests
+
+from consts import IMGWStationsElevation
 
 
 def add_coordinates(readings: list[dict],
@@ -52,6 +55,32 @@ def add_coordinates(readings: list[dict],
     return transformed
 
 
+def add_elevation(readings: list[dict]):
+    """
+    Function adds coordinates to downloaded stations.
+
+    Parameters
+    ----------
+    readings : list[dict]
+        Current weather readings.
+
+    Returns
+    -------
+    : list[dict]
+        Readings with additional key: ``elevation``.
+    """
+    transformed = []
+
+    for reading in readings:
+        rid = reading['id_stacji'][2:]
+        elev = _get_station_elevation(int(rid))
+        new_reading = reading.copy()
+        new_reading['mnpm'] = elev
+        transformed.append(new_reading)
+
+    return transformed
+
+
 def parse_response(response: requests.Response, ftype: str) -> Union[list[dict], str]:
     """
     Function parses response data to appropriate format.
@@ -74,3 +103,24 @@ def parse_response(response: requests.Response, ftype: str) -> Union[list[dict],
         return response.text
 
     return response.json()
+
+
+def _get_station_elevation(station_id) -> int:
+    """
+    Function returns station elevation.
+
+    Parameters
+    ----------
+    station_id
+        Id of IMGW station.
+
+    Returns
+    -------
+    : int
+    """
+    elestations = IMGWStationsElevation()
+    elestations = json.loads(elestations.elevation)
+    for el in elestations:
+        if el[0] == station_id:
+            return int(el[1])
+    return None

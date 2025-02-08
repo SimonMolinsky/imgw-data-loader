@@ -31,7 +31,8 @@ SYNOPTIC_MAPPER = {
     'suma_opadu': 'precipitation',
     'cisnienie': 'pressure',
     'lon': 'lon',
-    'lat': 'lat'
+    'lat': 'lat',
+    'mnpm': 'elevation'
 }
 
 

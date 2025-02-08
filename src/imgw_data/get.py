@@ -3,7 +3,7 @@ from typing import Optional
 import requests
 from imgw_data.consts import IMGWUrls, IMGWDataFormats, IMGWStationsCoordinates
 from imgw_data.export.export import export_to_file
-from imgw_data.utils.parse import parse_response, add_coordinates
+from imgw_data.utils.parse import parse_response, add_coordinates, add_elevation
 from imgw_data.utils.translate import translate_synoptic, translate_hydro_json
 from imgw_data.utils.urljoin import urljoin
 
@@ -95,6 +95,7 @@ def get_current_weather(
         fname: str = None,
         translate_to_english=True,
         add_station_coordinates=True,
+        add_station_elevation=True,
         as_json=False,
         as_csv=False,
         as_xml=False,
@@ -114,6 +115,9 @@ def get_current_weather(
 
     add_station_coordinates : bool, default = True
         Add station coordinates. Works only with json output.
+
+    add_station_elevation : bool, default = True
+        Add station elevation. Works only with json output.
 
     as_json : bool, default = False
         Save output to json.
@@ -159,6 +163,11 @@ def get_current_weather(
             raise_error_if_missing=raise_error_on_missing_coordinates
         )
 
+    if add_station_elevation and ftype == 'json':
+        parsed = add_elevation(
+            readings=parsed
+        )
+
     if translate_to_english:
         parsed = translate_synoptic(parsed)
 
@@ -174,4 +183,4 @@ def get_current_weather(
 
 
 if __name__ == '__main__':
-    print(get_current_hydro())
+    print(get_current_weather())

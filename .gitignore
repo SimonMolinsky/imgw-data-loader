@@ -1,7 +1,5 @@
 # Specific folders *
-eo/
-scripts/
-new_concepts/
+dev/
 
 # OS generated files #
 .DS_Store

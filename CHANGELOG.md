@@ -1,5 +1,10 @@
 # Changelog
 
+### Version 0.1.5 (2025-02-08)
+
+- (feature) added `elevation` to the weather station readings
+- (package) removed Python 3.8 from supported versions
+
 ## Version 0.1.4 (2024-06-16)
 
 - (feature) `get_current_hydro` - current hydrological situation in Poland

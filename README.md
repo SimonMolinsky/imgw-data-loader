@@ -1,6 +1,6 @@
 # imgw-data-loader
 
-Python API for IMGW (Polish: Instytut Meteorologii i Gospodarki Wodnej) public data access.
+Python API for IMGW (Polish: Instytut Meteorologii i Gospodarki Wodnej) public data access with current weather and hydro observations.
 
 ## Setup
 
@@ -13,6 +13,7 @@ pip install imgw-data
 - all **time** related variables are in **[UTC](https://en.wikipedia.org/wiki/Coordinated_Universal_Time)** 
 - **coordinates** are in **[EPSG:4326](https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84)**
 - **temperature** unit is Celsius
+- **elevation** is in meters (above the sea level)
 
 ## Usage
 
@@ -30,6 +31,7 @@ Function gets current weather from IMGW website. Monitored variables (*polish*: 
 - 'wilgotnosc_wzgledna': 'relative_humidity'
 - 'suma_opadu': 'precipitation'
 - 'cisnienie': 'pressure'
+- 'mnpm': 'elevation'
 
 #### Download as a Python object
 
@@ -156,5 +158,5 @@ print(active_stations[0])
 
 ## Dependencies
 
-- Python >= 3.8
+- Python >= 3.9
 - `requests`
