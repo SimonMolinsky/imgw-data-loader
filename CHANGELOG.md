@@ -1,6 +1,11 @@
 # Changelog
 
-### Version 0.1.5 (2025-02-08)
+## Version 0.1.6 (2025-02-09)
+
+- (debug) deugged imports inside the package
+- (rename) renamed function `get_station_elevation()`
+
+## Version 0.1.5 (2025-02-08)
 
 - (feature) added `elevation` to the weather station readings
 - (package) removed Python 3.8 from supported versions

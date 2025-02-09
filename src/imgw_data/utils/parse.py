@@ -3,7 +3,7 @@ from typing import Union
 
 import requests
 
-from consts import IMGWStationsElevation
+from imgw_data.consts import IMGWStationsElevation
 
 
 def add_coordinates(readings: list[dict],
@@ -73,7 +73,7 @@ def add_elevation(readings: list[dict]):
 
     for reading in readings:
         rid = reading['id_stacji'][2:]
-        elev = _get_station_elevation(int(rid))
+        elev = get_station_elevation(int(rid))
         new_reading = reading.copy()
         new_reading['mnpm'] = elev
         transformed.append(new_reading)
@@ -105,7 +105,7 @@ def parse_response(response: requests.Response, ftype: str) -> Union[list[dict],
     return response.json()
 
 
-def _get_station_elevation(station_id) -> int:
+def get_station_elevation(station_id) -> int:
     """
     Function returns station elevation.
 
